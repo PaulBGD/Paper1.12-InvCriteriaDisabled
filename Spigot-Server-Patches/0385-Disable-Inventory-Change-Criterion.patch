@@ -1,0 +1,27 @@
+From 56848689700d792690eb1b3f52296c633cbeb9b8 Mon Sep 17 00:00:00 2001
+From: Paul Sauve <paul@technove.co>
+Date: Mon, 29 Mar 2021 14:30:12 -0500
+Subject: [PATCH] Disable Inventory Change Criterion
+
+
+diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
+index cb2c459a..3fb8787f 100644
+--- a/src/main/java/net/minecraft/server/EntityPlayer.java
++++ b/src/main/java/net/minecraft/server/EntityPlayer.java
+@@ -956,9 +956,13 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+ 
+     public void a(Container container, int i, ItemStack itemstack) {
+         if (!(container.getSlot(i) instanceof SlotResult)) {
++            // Paul start
++            /*
+             if (container == this.defaultContainer) {
+                 CriterionTriggers.e.a(this, this.inventory);
+             }
++             */
++            // Paul end
+ 
+             if (!this.f) {
+                 this.playerConnection.sendPacket(new PacketPlayOutSetSlot(container.windowId, i, itemstack));
+-- 
+2.31.0
+

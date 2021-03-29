@@ -1,0 +1,35 @@
+From 146ddc71745980a3703f2a9426af3e2b2210fd6c Mon Sep 17 00:00:00 2001
+From: Paul Sauve <paul@technove.co>
+Date: Mon, 29 Mar 2021 14:35:37 -0500
+Subject: [PATCH] Disable Downloading Skins for Skulls
+
+
+diff --git a/src/main/java/net/minecraft/server/TileEntitySkull.java b/src/main/java/net/minecraft/server/TileEntitySkull.java
+index dd266588..07f72e24 100644
+--- a/src/main/java/net/minecraft/server/TileEntitySkull.java
++++ b/src/main/java/net/minecraft/server/TileEntitySkull.java
+@@ -182,7 +182,7 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
+                 }
+                 return false;
+             }
+-        }, false); 
++        }, false);
+         // Spigot end
+     }
+ 
+@@ -200,6 +200,12 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
+ 
+                     return Futures.immediateFuture(profile);
+                 } else {
++                    // Paul start - no downloading skull skins
++                    if (true) {
++                        callback.apply(profile);
++                        return Futures.immediateFuture(profile);
++                    }
++                    // Paul end
+                     Callable<GameProfile> callable = new Callable<GameProfile>() {
+                         @Override
+                         public GameProfile call() {
+-- 
+2.31.0
+

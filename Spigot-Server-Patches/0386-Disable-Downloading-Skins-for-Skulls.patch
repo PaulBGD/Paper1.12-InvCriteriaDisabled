@@ -1,11 +1,11 @@
-From 146ddc71745980a3703f2a9426af3e2b2210fd6c Mon Sep 17 00:00:00 2001
+From 667e477cfaa54b3e0609a8b665da63144393346d Mon Sep 17 00:00:00 2001
 From: Paul Sauve <paul@technove.co>
 Date: Mon, 29 Mar 2021 14:35:37 -0500
 Subject: [PATCH] Disable Downloading Skins for Skulls
 
 
 diff --git a/src/main/java/net/minecraft/server/TileEntitySkull.java b/src/main/java/net/minecraft/server/TileEntitySkull.java
-index dd266588..07f72e24 100644
+index dd2665881..4fe71cf34 100644
 --- a/src/main/java/net/minecraft/server/TileEntitySkull.java
 +++ b/src/main/java/net/minecraft/server/TileEntitySkull.java
 @@ -182,7 +182,7 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
@@ -17,19 +17,22 @@ index dd266588..07f72e24 100644
          // Spigot end
      }
  
-@@ -200,6 +200,12 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaSkull.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaSkull.java
+index 1ac549e5e..d0ab100ec 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaSkull.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaSkull.java
+@@ -83,7 +83,11 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
+         if (profile != null) {
+             // Fill in textures
+             // Must be done sync due to way client handles textures
++            // Paul start - disable lookups
++            /*
+             profile = com.google.common.util.concurrent.Futures.getUnchecked(TileEntitySkull.b(profile, com.google.common.base.Predicates.alwaysTrue(), true)); // Spigot
++             */
++            // Paul end
  
-                     return Futures.immediateFuture(profile);
-                 } else {
-+                    // Paul start - no downloading skull skins
-+                    if (true) {
-+                        callback.apply(profile);
-+                        return Futures.immediateFuture(profile);
-+                    }
-+                    // Paul end
-                     Callable<GameProfile> callable = new Callable<GameProfile>() {
-                         @Override
-                         public GameProfile call() {
+             NBTTagCompound owner = new NBTTagCompound();
+             GameProfileSerializer.serialize(owner, profile);
 -- 
 2.31.0
 
